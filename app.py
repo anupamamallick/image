@@ -21,16 +21,16 @@ def remove_background(input_path, output_path):
 
 @app.route('/')
 def home():
-    return render_template('home.html')
+    return render_template('index.html')
 
 @app.route('/remback', methods=['POST'])
 def remback():
     if 'file' not in request.files:
-        return render_template('home.html', error='No file part')
+        return render_template('index.html', error='No file part')
 
     file = request.files['file']
     if file.filename == '':
-        return render_template('home.html', error='No selected file')
+        return render_template('index.html', error='No selected file')
 
     if file and allowed_file(file.filename):
         filename = secure_filename(file.filename)
@@ -42,9 +42,9 @@ def remback():
 
         remove_background(input_path, output_path)
 
-        return render_template('home.html', org_img_name=filename, rembg_img_name=rembg_img_name)
+        return render_template('index.html', org_img_name=filename, rembg_img_name=rembg_img_name)
 
-    return render_template('home.html', error='Invalid file type')
+    return render_template('index.html', error='Invalid file type')
 
 @app.route('/uploads/<filename>')
 def uploaded_file(filename):
@@ -54,3 +54,4 @@ if __name__ == '__main__':
     if not os.path.exists(UPLOAD_FOLDER):
         os.makedirs(UPLOAD_FOLDER)
     app.run(debug=True)
+
